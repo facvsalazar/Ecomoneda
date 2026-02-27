@@ -6,12 +6,8 @@ Proyecto web desarrollado como práctica de desarrollo frontend, enfocado en la 
 
 ##  Vista previa
 
- Demo: *(podés agregar GitHub Pages después)*
+ Demo: https://facvsalazar.github.io/Ecomoneda/
  Repo: https://github.com/facvsalazar/Ecomoneda
-
-> Vista previa del proyecto:
-
----
 
 ##  Descripción
 
@@ -45,9 +41,6 @@ Ecomoneda/
 ├── script.js
 └── assets/
 ```
-
----
-
 ##  Lo que aprendí
 
 Durante el desarrollo de este proyecto trabajé en:
@@ -76,7 +69,7 @@ Durante el desarrollo de este proyecto trabajé en:
  Merlo, Buenos Aires, Argentina
 
 * GitHub: https://github.com/facvsalazar
-* LinkedIn: *(podés agregarlo después)*
+* LinkedIn: https://www.linkedin.com/in/facundo-salazar/
 
 ---
 
