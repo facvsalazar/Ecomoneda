@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias del Medio Ambiente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        }
+        .article-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border-radius: 12px;
+        }
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .share-button:hover {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+        }
+        .share-facebook { background-color: #1877F2; }
+        .share-twitter { background-color: #1DA1F2; }
+        .share-whatsapp { background-color: #25D366; }
+        .footer-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #dcfce7;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="min-h-screen flex flex-col items-center">
+        <!-- Encabezado y Navegación -->
+        <header class="w-full max-w-6xl bg-white shadow-xl p-4 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 rounded-b-3xl">
+            <a href="../index.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-200 shadow-md">
+                Regresar
+            </a>
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl sm:text-4xl font-bold text-green-800">Noticias Camino Verde</h1>
+                <i class="ph-duotone ph-leaf text-green-600 text-4xl sm:text-5xl"></i>
+            </div>
+            <nav class="flex space-x-2 sm:space-x-4 text-sm sm:text-base">
+                <a href="#argentina" class="text-gray-600 hover:text-green-600 font-semibold transition-colors duration-200">Argentina</a>
+                <a href="#buenosaires" class="text-gray-600 hover:text-green-600 font-semibold transition-colors duration-200">Buenos Aires</a>
+                <a href="../pag/formulario.html" target="_blank" class="text-gray-600 hover:text-green-600 font-semibold transition-colors duration-200">Contactate con Nosotros</a>
+            </nav>
+        </header>
+
+        <!-- Contenedor Principal de Noticias -->
+        <main class="w-full max-w-6xl py-8 px-4">
+
+            <!-- Sección: Noticias de Argentina -->
+            <section id="argentina" class="space-y-8">
+                <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Noticias de Argentina</h2>
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Artículo 1 (Más grande) -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden md:col-span-2">
+                        <img src="https://www.ecoportal.net/wp-content/uploads/2024/07/humedales.jpg" alt="" class="w-full h-64 md:h-80 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Humedales del Delta del Paraná en Proceso de Recuperación</h3>
+                            <p class="text-gray-600 text-base">Esfuerzos conjuntos entre organizaciones y el gobierno buscan restaurar los humedales del Delta, cruciales para la biodiversidad y la mitigación de inundaciones. Un proyecto vital para la región.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/humedales-delta" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/humedales-delta&text=Humedales del Delta del Paraná en Proceso de Recuperación" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Humedales del Delta del Paraná en Proceso de Recuperación - https://noticiasambientales.com/humedales-delta" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="../pag/pag de noticias/humedales.html" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 2 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://imgproxy.domestika.org/unsafe/w:820/plain/src://content-items/006/435/091/bordalo_ii_-_foto_final-original.jpg?1607446330" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Reciclaje Creativo: Transforma tu Basura en Arte</h3>
+                            <p class="text-gray-600 text-sm">Descubre cómo artistas y diseñadores argentinos están reutilizando materiales desechados para crear obras de arte únicas y funcionales.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/reciclaje-creativo" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/reciclaje-creativo&text=Reciclaje Creativo: Transforma tu Basura en Arte" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Reciclaje Creativo: Transforma tu Basura en Arte - https://noticiasambientales.com/reciclaje-creativo" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="../pag/pag de noticias/reciclaje.html" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 3 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://i.ytimg.com/vi/KnrZ9C8Hhxg/maxresdefault.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">El Movimiento "Plástico Cero" Gana Popularidad</h3>
+                            <p class="text-gray-600 text-sm">Explora los consejos y trucos para reducir drásticamente el uso de plástico en tu vida diaria y unirte a esta tendencia global.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/plastico-cero" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/plastico-cero&text=El Movimiento 'Plástico Cero' Gana Popularidad" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=El Movimiento 'Plástico Cero' Gana Popularidad - https://noticiasambientales.com/plastico-cero" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 4 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://tvbrics.com/upload/resize_cache/iblock/e15/800_500_0/lg2e9q0se8f7hdq3rhokdsywb94122rf.jpeg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Argentina en la Vanguardia de la Reforestación</h3>
+                            <p class="text-gray-600 text-sm">Se anuncian planes ambiciosos para restaurar millones de hectáreas de bosques, con un enfoque en la biodiversidad nativa y la mitigación del cambio climático.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/reforestacion-argentina" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/reforestacion-argentina&text=Argentina en la Vanguardia de la Reforestación" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Argentina en la Vanguardia de la Reforestación - https://noticiasambientales.com/reforestacion-argentina" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 5 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://www.pactomundial.org/wp-content/uploads/2024/08/WP_portada_copia.webp" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Manejo de Residuos Electrónicos: Un Desafío Nacional</h3>
+                            <p class="text-gray-600 text-sm">Organizaciones gubernamentales y privadas buscan soluciones para el creciente problema de los residuos electrónicos en el país.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/residuos-electronicos" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/residuos-electronicos&text=Manejo de Residuos Electrónicos: Un Desafío Nacional" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Manejo de Residuos Electrónicos: Un Desafío Nacional - https://noticiasambientales.com/residuos-electronicos" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 6 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://circlecitypedicabs.com/wp-content/uploads/2022/09/ecoturismo.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">El Ecoturismo como Motor de Desarrollo Sostenible</h3>
+                            <p class="text-gray-600 text-sm">El país se posiciona como un destino clave para viajeros que buscan experiencias responsables en la naturaleza, desde la Patagonia hasta el norte.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/ecoturismo-argentina" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/ecoturismo-argentina&text=El Ecoturismo como Motor de Desarrollo Sostenible" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=El Ecoturismo como Motor de Desarrollo Sostenible - https://noticiasambientales.com/ecoturismo-argentina" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 7 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://latamvoyage.com/wp-content/uploads/2020/02/PARQUES-CENTRO-SAN-GUIILLERMO.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Nuevas Áreas Protegidas se Suman a la Red Nacional</h3>
+                            <p class="text-gray-600 text-sm">El gobierno anuncia la creación de nuevos parques nacionales, expandiendo la protección de la biodiversidad y los ecosistemas únicos de Argentina.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/parques-nacionales" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/parques-nacionales&text=Nuevas Áreas Protegidas se Suman a la Red Nacional" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Nuevas Áreas Protegidas se Suman a la Red Nacional - https://noticiasambientales.com/parques-nacionales" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 8 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://celdares.mx/wp-content/uploads/2021/05/panelessolares-vs-energiaeolica.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Avances en Energía Eólica y Solar en el Interior del País</h3>
+                            <p class="text-gray-600 text-sm">Grandes proyectos de energía renovable están transformando las matrices energéticas en las provincias, reduciendo la dependencia de combustibles fósiles.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/energia-renovable" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/energia-renovable&text=Avances en Energía Eólica y Solar en el Interior del País" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Avances en Energía Eólica y Solar en el Interior del País - https://noticiasambientales.com/energia-renovable" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 9 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://www.unicef.org/ecuador/sites/unicef.org.ecuador/files/styles/hero_extended/public/wash.webp?itok=59HjkcPS" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Iniciativas para Garantizar el Acceso a Agua Potable</h3>
+                            <p class="text-gray-600 text-sm">Se implementan programas en comunidades rurales para mejorar el acceso a fuentes de agua seguras y sostenibles.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/agua-potable" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/agua-potable&text=Iniciativas para Garantizar el Acceso a Agua Potable" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Iniciativas para Garantizar el Acceso a Agua Potable - https://noticiasambientales.com/agua-potable" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Separador Visual -->
+            <hr class="my-12 border-t-2 border-green-500 opacity-20">
+
+            <!-- Sección: Noticias de Buenos Aires -->
+            <section id="buenosaires" class="space-y-8">
+                <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Noticias de Buenos Aires</h2>
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Artículo 1 (Más grande) -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden lg:col-span-2 lg:row-span-2">
+                        <img src="https://buenosaires.gob.ar/sites/default/files/styles/full_width/public/2025-08/WhatsApp%20Image%202025-08-22%20at%2014.28.23.jpeg?itok=AWcSVKTb" alt="" class="w-full h-96 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Planes para la Limpieza del Riachuelo Muestran Avances</h3>
+                            <p class="text-gray-600 text-base">Se reportan progresos significativos en el saneamiento de la cuenca Matanza-Riachuelo, un hito clave para la recuperación del ecosistema de la región, que beneficiará a millones de personas.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/riachuelo" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/riachuelo&text=Planes para la Limpieza del Riachuelo Muestran Avances" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Planes para la Limpieza del Riachuelo Muestran Avances - https://noticiasambientales.com/riachuelo" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 2 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://limpiezademalaga.es/wp-content/uploads/2023/09/Diseno-sin-titulo.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Compostaje en Buenos Aires: Guía para Principiantes</h3>
+                            <p class="text-gray-600 text-sm">Aprende a reducir tus residuos orgánicos con estos sencillos pasos para iniciar un compost en tu hogar en la Ciudad de Buenos Aires.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/compostaje-ba" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/compostaje-ba&text=Compostaje en Buenos Aires: Guía para Principiantes" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Compostaje en Buenos Aires: Guía para Principiantes - https://noticiasambientales.com/compostaje-ba" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 3 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://images.pagina12.com.ar/styles/focal_3_2_470x313/public/2024-12/899794-20a-4.jpg?h=8651250a&itok=u_8MYT5N" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Nuevas Ciclovías en la Ciudad Impulsan la Movilidad Sostenible</h3>
+                            <p class="text-gray-600 text-sm">La red de ciclovías de Buenos Aires sigue expandiéndose, promoviendo el uso de la bicicleta como una alternativa ecológica para moverse por la ciudad.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/ciclovias-ba" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/ciclovias-ba&text=Nuevas Ciclovías en la Ciudad Impulsan la Movilidad Sostenible" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Nuevas Ciclovías en la Ciudad Impulsan la Movilidad Sostenible - https://noticiasambientales.com/ciclovias-ba" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 4 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://mi8.com.ar/wp-content/uploads/2025/05/CUERPO-DE-TEXTO-2.jpg" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Escuelas de la Provincia Implementan Proyectos de Educación Ambiental</h3>
+                            <p class="text-gray-600 text-sm">Jóvenes estudiantes lideran iniciativas de reciclaje, huertos escolares y campañas de concientización para un futuro más verde.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/educacion-ambiental-ba" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/educacion-ambiental-ba&text=Escuelas de la Provincia Implementan Proyectos de Educación Ambiental" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Escuelas de la Provincia Implementan Proyectos de Educación Ambiental - https://noticiasambientales.com/educacion-ambiental-ba" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artículo 5 -->
+                    <div class="article-card bg-white shadow-lg overflow-hidden">
+                        <img src="https://news.agrofystatic.com/huerta3_agorfy_news.jpg?d=620x375" alt="" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Huertos Urbanos: Una Guía para Cultivar en la Ciudad</h3>
+                            <p class="text-gray-600 text-sm">Aprende a crear tu propio huerto en balcones y terrazas, contribuyendo a la seguridad alimentaria y a la reducción de la huella de carbono.</p>
+                            <div class="flex items-center space-x-2 mt-4">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://noticiasambientales.com/huertos-urbanos" target="_blank" class="share-button share-facebook" title="Compartir en Facebook">
+                                    <i class="ph-fill ph-facebook-logo text-xl"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=https://noticiasambientales.com/huertos-urbanos&text=Huertos Urbanos: Una Guía para Cultivar en la Ciudad" target="_blank" class="share-button share-twitter" title="Compartir en X (Twitter)">
+                                    <i class="ph-fill ph-x-logo text-xl"></i>
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text=Huertos Urbanos: Una Guía para Cultivar en la Ciudad - https://noticiasambientales.com/huertos-urbanos" target="_blank" class="share-button share-whatsapp" title="Compartir en WhatsApp">
+                                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                                </a>
+                                <a href="#" class="inline-block text-green-600 hover:text-green-800 font-semibold transition-colors duration-200 ml-auto">
+                                    Leer más &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Pie de página -->
+        <footer class="w-full bg-gray-900 text-gray-300 py-10 px-4 mt-12 rounded-t-3xl shadow-xl">
+            <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+                <!-- Columna de Logo y Descripción -->
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center mb-2">
+                        <i class="ph-duotone ph-leaf text-green-500 text-4xl mr-2"></i>
+                        <h3 class="text-2xl font-bold text-green-400">Noticias Ambientales</h3>
+                    </div>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        Tu fuente de información confiable sobre el cuidado del medio ambiente y noticias sostenibles en Argentina y el mundo.
+                    </p>
+                </div>
+
+                <!-- Columna de Enlaces de Navegación -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Explorar</h4>
+                    <ul class="text-center md:text-left space-y-2">
+                        <li><a href="#argentina" class="footer-link">Argentina</a></li>
+                        <li><a href="#buenosaires" class="footer-link">Buenos Aires</a></li>
+                        <li><a href="#mundiales" class="footer-link">Mundiales</a></li>
+                        <li><a href="./¿Quienes_Somos.html" class="footer-link">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna de Contacto y Redes Sociales -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Síguenos</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" target="_blank" class="share-button share-facebook text-xl" title="Facebook">
+                            <i class="ph-fill ph-facebook-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-twitter text-xl" title="X (Twitter)">
+                            <i class="ph-fill ph-x-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-whatsapp text-xl" title="WhatsApp">
+                            <i class="ph-fill ph-whatsapp-logo"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm">Contacto: info@noticiasambientalescamino_verde.com.ar</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
+                © 2025 Noticias Ambientales. Todos los derechos reservados. Camino Verde
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+
+<!--
+
+1. Estructura General del Documento (HTML)
+La base del sitio web es un archivo HTML. Los elementos principales son:
+
+<!DOCTYPE html>: Declara que el documento es de tipo HTML5.
+
+<html lang="es">: El contenedor principal de todo el contenido, con el atributo lang="es" para indicar que el idioma del contenido es el español.
+
+<head>: Contiene metadatos e información no visible para el usuario.
+
+<body>: Contiene todo el contenido visible de la página, como el encabezado, las noticias y el pie de página (aunque no está en el código provisto, sería donde iría).
+
+    
+2. La Cabecera (<head>)
+Aquí se configuran elementos importantes:
+
+<meta> tags:
+
+charset="UTF-8": Asegura que los caracteres especiales (como acentos y la ñ) se muestren correctamente.
+
+name="viewport": Es crucial para el diseño responsivo, haciendo que la página se adapte a diferentes tamaños de pantalla (móviles, tabletas, etc.).
+
+<title>: El título que aparece en la pestaña del navegador.
+
+Librerías y Fuentes:
+
+Tailwind CSS: script src="https://cdn.tailwindcss.com" importa esta librería. Es un "framework CSS de utilidad" que proporciona una gran cantidad de clases predefinidas (como flex, p-4, shadow-xl) que se usan directamente en el HTML para dar estilo sin escribir CSS desde cero.
+
+Phosphor Icons: script src="https://unpkg.com/@phosphor-icons..." importa un conjunto de iconos. Se usan en el HTML con la etiqueta <i> y clases como ph-duotone ph-leaf para mostrar un icono de hoja.
+
+Fuentes de Google Fonts: Las etiquetas <link> importan la fuente "Inter", usada para todo el texto.
+
+Estilos Personalizados (<style>): Esta sección contiene código CSS que no se puede lograr fácilmente con Tailwind. Se utiliza para:
+
+Aplicar un degradado de color al fondo del <body>.
+
+Agregar un efecto de transición y sombra al pasar el mouse (:hover) sobre las tarjetas de los artículos, lo que crea un efecto visual de elevación.
+
+Estilizar los botones de compartir en redes sociales y agregar un efecto de escala al pasar el mouse sobre ellos.
+
+3. El Cuerpo del Documento (<body>)
+Aquí se organiza el contenido visible de la página:
+
+El Encabezado (<header>)
+Es el bloque superior de la página.
+
+Usa clases de Tailwind como flex para organizar sus elementos (botón "Regresar", título y navegación) en una fila en pantallas grandes (sm:flex-row) y en una columna en móviles.
+
+La clase shadow-xl crea una sombra pronunciada para darle profundidad, y rounded-b-3xl redondea solo la parte inferior.
+
+El Contenido Principal (<main>)
+Es el contenedor de todas las secciones de noticias.
+
+El diseño está centrado y tiene un ancho máximo (max-w-6xl) para que se vea bien en pantallas grandes.
+
+Las Secciones de Noticias (<section>)
+Cada sección (#argentina, #buenosaires, etc.) está dividida por un separador visual (<hr>).
+
+Usa un sistema de grilla (grid) de Tailwind para organizar las noticias en columnas. Por ejemplo, lg:grid-cols-3 indica que en pantallas grandes (lg) habrá tres columnas de artículos. El primer artículo de cada sección es más grande para darle protagonismo, ocupando dos columnas (lg:col-span-2).
+
+Las Tarjetas de Artículo (<div class="article-card">)
+Cada tarjeta es una caja de noticias.
+
+La clase article-card tiene estilos personalizados para el efecto de transición que se ve al pasar el mouse.
+
+Imágenes: Cada artículo tiene una imagen (<img>). La clase object-cover asegura que la imagen se estire para llenar el espacio sin deformarse.
+
+Botones de Compartir: Son enlaces (<a>) con clases personalizadas como share-facebook. Al hacer clic, abren una nueva pestaña (target="_blank") con una URL específica para compartir el artículo en la red social correspondiente (Facebook, X, WhatsApp).
+
+-->

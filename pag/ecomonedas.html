@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Ecomonedas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+
+    <!-- Firebase SDK Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        setLogLevel('debug');
+
+        // Global variables from the Canvas environment. DO NOT change.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db, auth;
+
+        // Initialize Firebase and authenticate
+        if (Object.keys(firebaseConfig).length > 0) {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            onAuthStateChanged(auth, async (user) => {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            });
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e6f7ff, #b3e0ff);
+        }
+        .container {
+            background-color: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .prize-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .prize-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-start min-h-screen">
+
+    <!-- Barra de Navegación Superior -->
+    <nav class="fixed top-0 left-0 w-full p-4 flex items-center justify-between z-50 shadow-lg rounded-b-3xl">
+        <div class="flex items-center space-x-2">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY8E6ka94bP9E42YdL46PJiJjsXPqzgeMrh4rP3hJS9maZ2Cw3Xj6MG6ic1j2VTT2hUw4&usqp=CAU" alt="Camino Verde Logo" class="w-10 h-10 rounded-full border-2 border-green-600 shadow-md">
+            <span class="text-xl font-bold text-gray-800">Camino Verde</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="./juego.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-200 shadow-md">
+                Jugar
+            </a>
+            <a href="../index.html" onclick="window.history.back()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full transition-colors duration-200">
+                Regresar
+            </a>
+        </div>
+    </nav>
+
+    <div class="container max-w-4xl w-full p-8 text-center mt-28 mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Mis Ecomonedas</h1>
+        
+        <div class="text-left mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">¿Qué son las Ecomonedas?</h2>
+            <p class="text-gray-600 mb-4 leading-relaxed">
+                Las **Ecomonedas** son una forma de premiar tus acciones sostenibles. Se obtienen al reciclar y son tu boleto para acceder a premios exclusivos. Cada Ecomoneda representa tu compromiso con un futuro más verde.
+            </p>
+            <p class="text-gray-600 mb-4 leading-relaxed">
+                El valor de cada Ecomoneda se basa en el peso del material reciclado, y no todos los materiales tienen el mismo valor. Por ejemplo, el reciclaje de un material como el plomo genera más Ecomonedas que el reciclaje de papel, dado su valor y el impacto de su correcta disposición.
+            </p>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Tabla de Equivalencias</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md border border-gray-200 mb-8">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Material Reciclado
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ecomonedas por Kg
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Papel y Cartón</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">20</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Plástico (PET)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Aluminio</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Plomo y Metales</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">250</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Premios Disponibles</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Premio 1 -->
+                <div class="prize-card bg-green-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🛍️</span>
+                    <h3 class="text-xl font-semibold text-green-800">Bolsa Ecológica</h3>
+                    <p class="text-gray-600 text-sm">por 150 Ecomonedas</p>
+                </div>
+                <!-- Premio 2 -->
+                <div class="prize-card bg-yellow-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🌱</span>
+                    <h3 class="text-xl font-semibold text-yellow-800">Kit de Siembra</h3>
+                    <p class="text-gray-600 text-sm">por 300 Ecomonedas</p>
+                </div>
+                <!-- Premio 3 -->
+                <div class="prize-card bg-blue-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🎟️</span>
+                    <h3 class="text-xl font-semibold text-blue-800">Descuento Tienda</h3>
+                    <p class="text-gray-600 text-sm">por 500 Ecomonedas</p>
+                </div>
+                <!-- Premio 4 -->
+                <div class="prize-card bg-indigo-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🌳</span>
+                    <h3 class="text-xl font-semibold text-indigo-800">Plantación de Árbol</h3>
+                    <p class="text-gray-600 text-sm">por 1000 Ecomonedas</p>
+                </div>
+                <!-- Nuevo Premio 5 -->
+                <div class="prize-card bg-fuchsia-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">☕</span>
+                    <h3 class="text-xl font-semibold text-fuchsia-800">Taza Reutilizable</h3>
+                    <p class="text-gray-600 text-sm">por 120 Ecomonedas</p>
+                </div>
+                <!-- Nuevo Premio 6 -->
+                <div class="prize-card bg-teal-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🎬</span>
+                    <h3 class="text-xl font-semibold text-teal-800">Entrada de Cine</h3>
+                    <p class="text-gray-600 text-sm">por 250 Ecomonedas</p>
+                </div>
+                <!-- Nuevo Premio 7 -->
+                <div class="prize-card bg-rose-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">🐾</span>
+                    <h3 class="text-xl font-semibold text-rose-800">Adopta un Animal</h3>
+                    <p class="text-gray-600 text-sm">por 800 Ecomonedas</p>
+                </div>
+                <!-- Nuevo Premio 8 -->
+                <div class="prize-card bg-cyan-100 rounded-xl p-6 shadow-md flex flex-col items-center">
+                    <span class="text-5xl mb-2">💡</span>
+                    <h3 class="text-xl font-semibold text-cyan-800">Kit de Luz LED</h3>
+                    <p class="text-gray-600 text-sm">por 400 Ecomonedas</p>
+                </div>
+            </div>
+            
+            <p class="text-gray-600 mt-8 leading-relaxed">
+                El comprobante de tus Ecomonedas se entregará en el punto de reciclaje después de pesar tu material. Utilízalo para canjear tus premios en los puntos de recolección o en línea.
+            </p>
+            
+            <a href="../pag/juego.html" class="mt-8 inline-block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Jugar
+            </a>
+        </div>
+    </div>
+    
+    <!-- Pie de página -->
+        <footer class="w-full bg-gray-900 text-gray-300 py-10 px-4 mt-12 rounded-t-3xl shadow-xl">
+            <div class="mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+                <!-- Columna de Logo y Descripción -->
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center mb-2">
+                        <i class="ph-duotone ph-leaf text-green-500 text-4xl mr-2"></i>
+                        <h3 class="text-2xl font-bold text-green-400">Reciclaje</h3>
+                    </div>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        En la provincia de Buenos Aires existen muchos centros de reciclaje, lleva tu basura para que sea tratada.
+                    </p>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        Tu participacion ayuda a salvar el mundo.
+                    </p>
+                </div>
+
+                <!-- Columna de Enlaces de Navegación -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Explorar</h4>
+                    <ul class="text-center md:text-left space-y-2">
+                        <li><a href="../index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="../pag/ecomonedas.html" class="footer-link">Ecomonedas</a></li>
+                        <li><a href="../pag/¿Quienes_Somos.html" class="footer-link">¿Quienes_Somos?</a></li>
+                        <li><a href="../pag/juego.html" class="footer-link">Juega y Gana</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna de Contacto y Redes Sociales -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Síguenos</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" target="_blank" class="share-button share-facebook text-xl" title="Facebook">
+                            <i class="ph-fill ph-facebook-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-twitter text-xl" title="X (Twitter)">
+                            <i class="ph-fill ph-x-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-whatsapp text-xl" title="WhatsApp">
+                            <i class="ph-fill ph-whatsapp-logo"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm">Contacto: info@camino_verde.com.ar</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
+                © 2025 Centro de Reciclaje. Todos los derechos reservados. Camino Verde
+            </div>
+        </footer>
+</body>
+</html>
+
+
+<!--
+
+1. Estructura Básica (<head> y <body>)
+<head>: Esta sección contiene metadatos y enlaces a recursos externos. Es la "cabeza" de la página, invisible para el usuario pero fundamental para su funcionamiento.
+
+meta tags: Definen el juego de caracteres (UTF-8) y la configuración de la vista para dispositivos móviles (viewport), asegurando que la página sea completamente responsive.
+
+title: El título de la pestaña del navegador, "Mis Ecomonedas".
+
+script y link: Enlazan a librerías y recursos externos:
+
+Tailwind CSS: Una herramienta de diseño que permite estilizar la página directamente en el HTML con clases como flex, p-8, bg-white, etc.
+
+Google Fonts: Carga la fuente "Inter" para un estilo moderno y legible.
+
+Phosphor Icons: Proporciona los íconos temáticos (como la hoja 🌿) para el pie de página y otras secciones.
+
+Firebase SDK: Un conjunto de librerías para conectar la página a una base de datos en tiempo real (Firestore) y a un sistema de autenticación (Auth). El código inicializa Firebase y autentica al usuario de forma anónima o con un token especial del entorno, aunque en este archivo no se usa la base de datos para mostrar información.
+
+<style>: Contiene estilos CSS personalizados que complementan a Tailwind, como los efectos de transición y sombra para las tarjetas de premios (prize-card) y el degradado de fondo (body).
+
+<body>: Es el cuerpo principal de la página, donde está todo el contenido visible, como el menú de navegación, el texto, las tablas y el pie de página.
+
+    
+2. Barra de Navegación (<nav>)
+Se encuentra en la parte superior de la página y es fija (fixed top-0). Esto significa que siempre será visible, incluso si el usuario se desplaza hacia abajo.
+
+Incluye un logo de "Camino Verde" (una imagen circular con un borde verde).
+
+Tiene dos botones principales:
+
+"Jugar": Un botón verde que lleva al usuario a otra página (juego.html).
+
+"Regresar": Un botón gris que usa JavaScript (onclick="window.history.back()") para volver a la página anterior en el historial del navegador.
+
+
+3. Contenido Principal (<div class="container">)
+Todo el contenido principal está dentro de un contenedor central (container) con esquinas redondeadas y una sombra.
+
+Título y descripción: Un título grande (<h1>) "Mis Ecomonedas" seguido de dos párrafos (<p>) que explican el concepto de las Ecomonedas y su valor basado en el tipo de material reciclado.
+
+Tabla de Equivalencias: Una tabla (<table>) bien formateada que muestra cuánto valen diferentes materiales reciclados en Ecomonedas por cada kilogramo. Está dentro de un div para permitir el desplazamiento horizontal si la pantalla es pequeña.
+
+Premios Disponibles: Una sección que muestra los premios disponibles. Utiliza un sistema de cuadrícula (grid) de Tailwind para organizar las tarjetas de premios.
+
+Cada tarjeta (prize-card) tiene un ícono (usando emojis como 🛍️ y 🌱), un título y el costo en Ecomonedas. El diseño es atractivo y cada tarjeta tiene un efecto de sombra y una ligera animación al pasar el cursor sobre ella.
+
+Llamada a la acción: Un botón grande "Jugar" al final del contenido, invitando al usuario a ir a la página del juego.
+
+
+4. Pie de Página (<footer>)
+Un pie de página oscuro (bg-gray-900) con esquinas superiores redondeadas.
+
+Está dividido en tres columnas (flex-col md:flex-row) para organizar el contenido en pantallas grandes.
+
+Columna 1: Logo de reciclaje con un ícono de hoja y una breve descripción de la iniciativa.
+
+Columna 2: Enlaces de navegación rápida a otras páginas del sitio, como "Inicio" y "Ecomonedas".
+
+Columna 3: Enlaces a redes sociales y la información de contacto. Usa íconos de la librería Phosphor para un estilo coherente.
+
+Copyright: Una línea final que muestra la información de derechos de autor y el nombre del proyecto.
+
+-->

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-y: auto; /* Permite el desplazamiento vertical */
+            height: auto;
+            color: white;
+            position: relative;
+            border-radius: 0%;
+        }
+
+        /* Contenedor del GIF de fondo */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1; /* Mover el GIF detrás del contenido */
+        }
+
+        .video-background img {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .cuadrado {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(100vh);
+            /* Animación inicial de subida y animación de pulso continuo */
+            animation: slide-up 1s forwards ease-out, pulse 2s infinite ease-in-out 1s;
+            transition: all 0.3s ease;
+        }
+        
+        .cuadrado:hover {
+            transform: scale(1.05) translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        /* Retraso para que cada cuadrado aparezca de forma secuencial */
+        .cuadrado:nth-child(1) { animation-delay: 0.1s, 1.1s; }
+        .cuadrado:nth-child(2) { animation-delay: 0.2s, 1.2s; }
+        .cuadrado:nth-child(3) { animation-delay: 0.3s, 1.3s; }
+        .cuadrado:nth-child(4) { animation-delay: 0.4s, 1.4s; }
+
+        /* Keyframes para la animación inicial de subida */
+        @keyframes slide-up {
+            from {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Keyframes para la animación de pulso */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+
+    <!-- GIF de fondo -->
+    <div class="video-background">
+        <img src="https://www.numaniaticos.com/wp-content/uploads/2014/11/cascada.gif">
+    </div>
+
+    <!-- Superposición para oscurecer el GIF -->
+    <div class="bg-overlay"></div>
+
+    <!-- Contenido principal -->
+    <div class="container text-center max-w-4xl mx-auto">
+        
+        <!-- Logo -->
+        <img
+        style="height: 120px; margin-left: 400px; border-radius: 60px;"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY8E6ka94bP9E42YdL46PJiJjsXPqzgeMrh4rP3hJS9maZ2Cw3Xj6MG6ic1j2VTT2hUw4&usqp=CAU">
+
+        <h1 class="text-5xl md:text-6xl font-bold mb-8">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-lime-600">
+               Camino Verde
+            </span>
+        </h1>
+        <p 
+        style="font-size: 22px; margin-top: -15px;"
+        >
+            Explora un mundo de sostenibilidad y descubre el valor de tus acciones.
+        </p>
+
+        <!-- Contenedor de los 4 cuadrados -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+            
+            <!-- Sección: ¿Quiénes Somos? -->
+            <a 
+            style="height: 350px; border-radius: 0%;"
+            href="./pag/¿Quienes_Somos.html" class="cuadrado rounded-xl p-8 flex flex-col items-center justify-center text-center no-underline text-white">
+                <img style="margin-top: -10px; width: 150px; height: 130px;" src="https://cdn-icons-png.flaticon.com/512/2674/2674996.png" alt="Equipo" class="w-36 h-36 rounded-full mb-4 object-cover">
+                <h3 style="margin-top: -10px;" class="text-xl font-bold mb-2">¿Quiénes Somos?</h3>
+                <p class="text-sm text-gray-200">Conoce nuestra misión, visión y el equipo que trabaja por un futuro más verde.</p>
+            </a>
+
+            <!-- Sección: Puntos de reciclaje -->
+            <a 
+            style="height: 350px; border-radius: 0%;"
+            href="./pag/puntosdereciclaje.html" class="cuadrado rounded-xl p-8 flex flex-col items-center justify-center text-center no-underline text-white">
+                <img style="margin-top: -10px; width: 150px; height: 130px;" src="https://cdn-icons-png.freepik.com/256/3320/3320757.png?semt=ais_white_label" alt="Reciclaje" class="w-36 h-36 rounded-full mb-4 object-cover">
+                <h3 style="margin-top: -10px;" class="text-xl font-bold mb-2">Puntos de Reciclaje</h3>
+                <p class="text-sm text-gray-200">Encuentra los centros de acopio más cercanos para tus materiales reciclables.</p>
+            </a>
+
+            <!-- Sección: Ecomonedas -->
+            <a 
+            style="height: 350px; border-radius: 0%;"
+            href="./pag/ecomonedas.html" class="cuadrado rounded-xl p-8 flex flex-col items-center justify-center text-center no-underline text-white">
+                <img style="margin-top: -40px; width: 150px; height: 130px;"  src="https://img.freepik.com/vector-premium/combinacion-logotipo-moneda-hoja-simbolo-o-icono-dinero-eco_617472-4969.jpg" alt="Ecomonedas" class="w-36 h-36 rounded-full mb-4 object-cover">
+                <h3 style="margin-top: -10px;" class="text-xl font-bold mb-2">Ecomonedas</h3>
+                <p class="text-sm text-gray-200">Descubre cómo tus acciones sostenibles te permiten ganar ecomonedas.</p>
+            </a>
+
+            <!-- Sección: Noticias -->
+            <a 
+            style="height: 350px; border-radius: 0%;"
+            href="./pag/noticias.html" class="cuadrado rounded-xl p-8 flex flex-col items-center justify-center text-center no-underline text-white">
+                <img style="margin-top: -40px; width: 150px; height: 130px;" src="https://cdn-icons-png.flaticon.com/512/5304/5304115.png" alt="Noticias" class="w-36 h-36 rounded-full mb-4 object-cover">
+                <h3 
+                style="margin-top: -10px;" class="text-xl font-bold mb-2">Noticias</h3>
+                <p class="text-sm text-gray-200">Mantente al día con las últimas novedades sobre ecología y sostenibilidad.</p>
+            </a>
+            
+        </div>
+    </div>
+</body>
+</html>
+
+<!--
+
+Análisis del HTML (Estructura)
+La estructura del código es bastante clara y se organiza en las siguientes partes:
+
+<!DOCTYPE html> y <html>: Son las etiquetas estándar que definen el documento como un archivo HTML5 y contienen todo el contenido de la página.
+
+<head>: Contiene la información de configuración de la página que no es visible para el usuario.
+
+<meta charset="UTF-8">: Permite que la página muestre caracteres especiales correctamente.
+
+<meta name="viewport" ...>: Asegura que la página se vea bien en dispositivos móviles ajustando el ancho a la pantalla del dispositivo.
+
+<title>Inicio</title>: El título que aparece en la pestaña del navegador.
+
+<script src="https://cdn.tailwindcss.com"></script>: Carga la librería de Tailwind CSS, lo que nos permite usar clases como flex, items-center, p-4, etc., directamente en el HTML para el estilo.
+
+<style>: Aquí se define el CSS personalizado que complementa a Tailwind.
+
+<body>: Contiene todo el contenido visible de la página.
+
+Fondo y Superposición: Los dos primeros <div> (.video-background y .bg-overlay) se encargan del fondo. El primero muestra el GIF de la cascada y el segundo crea una capa de color oscuro y borroso sobre el GIF para que el texto sea más legible.
+
+Contenido Principal: El <div> con la clase .container contiene todo el contenido principal, incluyendo el logo, el título "Camino Verde", la descripción y las cuatro tarjetas.
+
+Las Tarjetas: El <div> con la clase grid organiza las cuatro tarjetas en una cuadrícula. Cada tarjeta es una etiqueta <a> (un enlace), lo que las hace clicables. Contienen una imagen, un título y una descripción. Las clases de Tailwind (rounded-xl, p-8, flex, etc.) se usan para estilizar cada tarjeta.
+
+
+    Análisis del CSS (Estilo y Animación)
+El CSS personalizado en la etiqueta <style> es lo que le da a la página su aspecto único y dinámico.
+
+Fondo (.video-background y .bg-overlay):
+
+position: fixed: Fija el fondo en su lugar, incluso si el usuario se desplaza.
+
+z-index: -1: Mueve el fondo detrás de todo el contenido.
+
+backdrop-filter: blur(4px): Una propiedad muy importante que crea un efecto de "vidrio esmerilado", borrando todo lo que está detrás del elemento.
+
+Las Tarjetas (.cuadrado): Esta es la parte más compleja y animada.
+
+background-color y backdrop-filter: Combinan para crear un efecto translúcido y borroso, como si las tarjetas estuvieran hechas de cristal.
+
+Animaciones: Se aplican dos animaciones en secuencia:
+
+animation: slide-up 1s forwards ease-out: La primera animación, slide-up, hace que las tarjetas se deslicen hacia arriba desde la parte inferior de la pantalla en 1 segundo.
+
+pulse 2s infinite ease-in-out 1s: La segunda animación, pulse, hace que las sombras de las tarjetas pulsen, creando un efecto de brillo sutil y continuo. El 1s al final hace que esta animación comience 1 segundo después de que la primera termine.
+
+transition: all 0.3s ease: Hace que los cambios al pasar el cursor (como el transform y el box-shadow) sean suaves y fluidos.
+
+:hover: Define los estilos que se aplican cuando el cursor pasa por encima de una tarjeta, haciéndola más grande (scale(1.05)) y moviéndola ligeramente hacia arriba (translateY(-5px)).
+
+:nth-child(n): Usa un selector CSS para aplicar retrasos diferentes a cada tarjeta, creando el efecto de que aparecen una después de otra, de forma escalonada.
+
+@keyframes:
+
+@keyframes slide-up: Define los pasos para la animación de subida, moviendo el elemento desde abajo (translateY(100vh)) hasta su posición original (translateY(0)).
+
+@keyframes pulse: Define la animación de pulso, que simplemente alterna el tamaño de la sombra de la caja para crear el efecto de brillo.
+
+Componentes Interactivos (Las tarjetas)
+Cada tarjeta es un enlace (<a>) que te lleva a una página diferente (por ejemplo, /pag/¿Quienes_Somos.html). Están organizadas en una cuadrícula (grid) que se adapta a diferentes tamaños de pantalla (md:grid-cols-2 lg:grid-cols-4).
+
+¿Quiénes Somos?: Con una imagen de equipo.
+
+Puntos de Reciclaje: Con un ícono de reciclaje.
+
+Ecomonedas: Con un ícono de una moneda con una hoja.
+
+Noticias: Con un ícono de un periódico.
+
+Cada tarjeta tiene el mismo estilo de "cristal" y efectos de animación, lo que crea una apariencia coherente en toda la sección.
+
+-->

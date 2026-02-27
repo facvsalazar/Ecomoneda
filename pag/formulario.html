@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Contacto</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+        
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--color-background-start), var(--color-background-end));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--color-dark);
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--color-light);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--color-dark);
+        }
+
+        p.instructions {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--color-dark);
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: var(--color-dark);
+        }
+
+        :root {
+            --color-primary: #4ade80; /* Un verde vibrante */
+            --color-light: #f9fafb;  /* Un blanco suave */
+            --color-dark: #374151;   /* Un gris oscuro para el texto */
+            --color-border: #d1d5db; /* Un gris claro para los bordes */
+            --color-background-start: #e5fbe9; /* Degradado de fondo */
+            --color-background-end: #d6f2e8;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.4);
+        }
+
+        textarea {
+            min-height: 10rem;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3fbf70;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Contacto</h1>
+        <p class="instructions">
+            Por favor, completa los siguientes campos para que podamos ayudarte. Los campos marcados con (*) son obligatorios.
+        </p>
+
+        <form action="https://formspree.io/f/xyzdrodr" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre (*)</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="motivo">Motivo de Contacto (*)</label>
+                <select id="motivo" name="motivo" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="denuncia">Denuncia</option>
+                    <option value="informacion">Información</option>
+                    <option value="publicidad">Publicidad</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular (opcional)</label>
+                <input type="tel" id="celular" name="celular" placeholder="Ej: +54 9 11 1234 5678">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico (*)</label>
+                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción (*)</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Escribe aquí tu mensaje detallado..." maxlength="1000" rows="10" required></textarea>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

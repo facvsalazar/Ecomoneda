@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quiénes Somos? - Camino Verde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-y: auto;
+            color: white;
+            position: relative;
+        }
+
+        .cuadrado {
+            background-color: rgba(40, 88, 44, 0.945);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgb(245, 239, 239);
+            box-shadow: 0 4px 6px rgb(0, 0, 0);
+            
+        }
+
+        .team-card {
+            background-image: linear-gradient(135deg, rgba(252, 252, 252, 0.1), rgba(255, 255, 255, 0.05));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 40px rgba(6, 238, 18, 0.2);
+        }
+        
+        .fade-slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .header-bar {
+            background-color: rgba(50, 54, 52, 0.37);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .carousel-image.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- Barra de Navegación Superior -->
+    <header class="header-bar p-4 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center space-x-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY8E6ka94bP9E42YdL46PJiJjsXPqzgeMrh4rP3hJS9maZ2Cw3Xj6MG6ic1j2VTT2hUw4&usqp=CAU" alt="Logo Círculo Sostenible" class="w-12 h-12 rounded-full">
+            <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-lime-600">
+                Camino Verde
+            </span>
+        </div>
+        <a style="border-radius: 0%;" href="../index.html" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300">
+            Volver al Inicio
+        </a>
+    </header>
+
+    
+
+    <!-- Sección de Equipo -->
+        <div class="rounded-xl p-8 my-8 text-left fade-slide-in-right" id="team">
+            <h2 class="text-3xl font-bold mb-4 text-center"><i>EQUIPO</i></h2>
+            <div  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-6">
+                <!-- Miembro 1 (Mujer) -->
+                <div style="border-radius: 0%;" class="team-card rounded-lg p-6 flex flex-col items-center text-center">
+                    <img src="https://img.freepik.com/vector-premium/chica-linda-capucha-gris-sentada-suelo-usando-ilustracion-vectorial-dibujos-animados-portatil_1080480-143238.jpg?semt=ais_hybrid&w=740&q=80" alt="Desarrolladora 1" class="w-40 h-40 rounded-full object-cover mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold">Nombre de Desarrolladora 1</h3>
+                        <p class="text-gray-300">Desarrolladora</p>
+                    </div>
+                </div>
+                <!-- Miembro 2 (Hombre) -->
+                <div style="border-radius: 0%;" class="team-card rounded-lg p-6 flex flex-col items-center text-center">
+                    <img src="https://img.freepik.com/premium-vector/happy-programmer-character-coding-laptop_207579-4626.jpg" alt="Desarrollador 2" class="w-40 h-40 rounded-full object-cover mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold">Nombre del Desarrollador 2</h3>
+                        <p class="text-gray-300">Desarrollador</p>
+                    </div>
+                </div>
+                <!-- Miembro 3 (Hombre) -->
+                <div class="team-card rounded-lg p-6 flex flex-col items-center text-center">
+                    <img src="https://www.shutterstock.com/image-vector/vector-illustration-super-professional-programmer-600nw-682987117.jpg" alt="Desarrollador 3" class="w-40 h-40 rounded-full object-cover mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold">Nombre del Desarrollador 3</h3>
+                        <p class="text-gray-300">Desarrollador</p>
+                    </div>
+                </div>
+                <!-- Miembro 4 (Mujer) -->
+                <div class="team-card rounded-lg p-6 flex flex-col items-center text-center">
+                    <img src="https://img.freepik.com/vector-gratis/linda-chica-hacker-operando-laptop-dibujos-animados-vector-icono-ilustracion-personas-tecnologia-aislada-plana_138676-9487.jpg?semt=ais_hybrid&w=740&q=80" alt="Desarrolladora 4" class="w-40 h-40 rounded-full object-cover mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold">Nombre de Desarrolladora 4</h3>
+                        <p class="text-gray-300">Desarrolladora</p>
+                    </div>
+                </div>
+                <!-- Miembro 5 (Hombre) -->
+                <div class="team-card rounded-lg p-6 flex flex-col items-center text-center">
+                    <img src="https://img.freepik.com/vector-premium/programador-feliz-codificacion-binaria-hombre-computadora-portatil_51635-7785.jpg" alt="Desarrollador 5" class="w-40 h-40 rounded-full object-cover mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold">Nombre del Desarrollador 5</h3>
+                        <p class="text-gray-300">Desarrollador</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="container mx-auto p-8 max-w-6xl text-center">
+        <!-- Sección ¿Quiénes Somos? -->
+        <div class="cuadrado rounded-xl p-8 my-8 text-left fade-slide-in-left" id="quienes-somos-text">
+            <h2 class="text-3xl font-bold mb-4">¿Quiénes Somos?</h2>
+            <p class="text-lg text-gray-200 leading-relaxed">
+                Todo comenzó con una idea simple: hacer del mundo un lugar más limpio. No éramos más que un pequeño grupo de amigos, frustrados por la falta de opciones prácticas para reciclar. Veíamos la basura acumulándose y sentíamos que la solución no solo era necesaria, sino urgente. Nos reuníamos en un garaje, discutiendo sobre cómo podríamos inspirar un cambio real. Sabíamos que la gente quería ayudar, pero a menudo no sabían por dónde empezar. Nuestro "porqué" se convirtió en una convicción profunda. Creíamos firmemente que cada pequeño gesto cuenta. Que cada botella reciclada y cada punto de reciclaje localizado contribuye a un futuro mejor. Decidimos que nuestra misión sería cerrar la brecha entre la intención y la acción. Nos pusimos a trabajar, dedicando incontables horas a programar la primera versión de la plataforma. Queríamos que la sostenibilidad fuera accesible para todos. Por eso, creamos la idea de las Ecomonedas. Un sistema que recompensa a los usuarios por sus esfuerzos ecológicos. Fue un desafío enorme, pero la pasión nos mantuvo unidos. Nuestro objetivo final es construir una comunidad global. Una red de personas comprometidas con la protección del medio ambiente. Buscamos expandir nuestros puntos de reciclaje por todo el país. También queremos ofrecer más descuentos y beneficios a nuestros usuarios. Soñamos con un mundo donde el reciclaje sea la norma y no la excepción. En Círculo Sostenible, no solo programamos, sino que construimos un camino más verde para todos.
+            </p>
+        </div>
+
+    </div>
+
+     <!-- Pie de página -->
+        <footer class="w-full bg-gray-900 text-gray-300 py-10 px-4 mt-12 rounded-t-3xl shadow-xl">
+            <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+                <!-- Columna de Logo y Descripción -->
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center mb-2">
+                        <i class="ph-duotone ph-leaf text-green-500 text-4xl mr-2"></i>
+                        <h3 class="text-2xl font-bold text-green-400">Equipo</h3>
+                    </div>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        Somos el mejor equipo para salvar al planeta, ùnete y se parte de la revolucion verde.
+                    </p>
+                </div>
+
+                <!-- Columna de Enlaces de Navegación -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Explorar</h4>
+                    <ul class="text-center md:text-left space-y-2">
+                        <li><a href="../index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="../pag/ecomonedas.html" class="footer-link">Ecomonedas</a></li>
+                        <li><a href="../pag/puntosdereciclaje.html" class="footer-link">Puntos de Reciclaje</a></li>
+                        <li><a href="../pag/juego.html" class="footer-link">Juega y Gana</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna de Contacto y Redes Sociales -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Síguenos</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" target="_blank" class="share-button share-facebook text-xl" title="Facebook">
+                            <i class="ph-fill ph-facebook-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-twitter text-xl" title="X (Twitter)">
+                            <i class="ph-fill ph-x-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-whatsapp text-xl" title="WhatsApp">
+                            <i class="ph-fill ph-whatsapp-logo"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm">Contacto: info@camino_verde.com.ar</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
+                © 2025 EQUIPO. Todos los derechos reservados. Camino Verde
+            </div>
+        </footer>
+
+    <script>
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('quienes-somos-text').classList.add('fade-in-active');
+            }, 500);
+            setTimeout(() => {
+                document.getElementById('team').classList.add('fade-in-active');
+            }, 1000);
+
+            // Código para el carrusel de imágenes
+            const images = document.querySelectorAll('.carousel-image');
+            let currentIndex = 0;
+
+            function showImage(index) {
+                images.forEach((img, i) => {
+                    if (i === index) {
+                        img.classList.add('active');
+                    } else {
+                        img.classList.remove('active');
+                    }
+                });
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                showImage(currentIndex);
+            }
+
+            // Iniciar el carrusel
+            setInterval(nextImage, 5000); // Cambia de imagen cada 5 segundos
+        };
+    </script>
+</body>
+</html>
+
+<!--
+
+
+explicacion del diseño en ¿Quienes somos?
+
+Los diseños que utilizo para crear la página provienen de una combinación de dos fuentes principales:
+
+1. Tailwind CSS
+La mayoría del estilo y la disposición de la página, como los colores de fondo, el espaciado, los bordes redondeados y la adaptabilidad a diferentes dispositivos, provienen de un marco de trabajo (framework) de CSS llamado Tailwind CSS.
+
+En lugar de escribir reglas de CSS tradicionales como esta:
+.contenedor {
+  background-color: #1a202c;
+  padding: 32px;
+}
+
+Tailwind usa clases predefinidas directamente en el HTML:
+<div class="bg-gray-900 p-8">...</div>
+
+Esto me permite construir interfaces de usuario de forma muy rápida y eficiente. He utilizado clases de Tailwind para:
+Diseño Responsivo: Clases como grid-cols-1, sm:grid-cols-2 y lg:grid-cols-5 hacen que la sección del equipo se ajuste automáticamente para mostrar 1, 2 o 5 columnas, dependiendo del tamaño de la pantalla.
+Colores y Tipografía: Clases como bg-gray-900, text-white y font-bold para definir el esquema de colores y el estilo del texto.
+Efectos de Interacción: La clase hover:translate-y-[-5px] en las tarjetas del equipo hace que se levanten ligeramente cuando el cursor pasa por encima, creando un efecto dinámico.
+
+2. Estilos y Animaciones Personalizadas
+Para los efectos más complejos y específicos, como la animación de entrada de los elementos y la transición del carrusel de imágenes, he escrito reglas de CSS personalizadas.
+fade-slide-in-left y fade-slide-in-right: Estas reglas definen la animación de "deslizamiento y aparición" que ves en los bloques de texto. Inicialmente, los elementos están invisibles (opacity: 0) y fuera de la pantalla.
+fade-in-active: El código de JavaScript añade esta clase a los elementos después de un breve retraso. Cuando esta clase se activa, los elementos se vuelven visibles y se deslizan a su posición final.
+Carrusel de Imágenes: El efecto de cambio de imágenes no se puede hacer solo con Tailwind. Para ello, he utilizado CSS personalizado para controlar la opacidad de las imágenes, y el código JavaScript que te expliqué es el que se encarga de cambiar la imagen activa en un bucle.
+
+
+explicacion de js en ¿Quienes somos?
+
+
+Animación de Entrada
+
+window.onload = function() {
+    setTimeout(() => {
+        document.getElementById('quienes-somos-text').classList.add('fade-in-active');
+    }, 500);
+    setTimeout(() => {
+        document.getElementById('team').classList.add('fade-in-active');
+    }, 1000);
+    // ... el resto del código
+};
+
+Esta parte del código se encarga de que los elementos de la página aparezcan con un efecto de "fade-in" (técnica que consiste en la aparición progresiva de una imagen o sonido, desde la oscuridad o el silencio hasta la plena visibilidad o volumen) y se deslicen suavemente.
+
+window.onload: Esta función asegura que el código se ejecute solo cuando toda la página (incluyendo el HTML, CSS y las imágenes) se haya cargado por completo. Es una buena práctica para evitar errores.
+setTimeout(): Esta función retrasa la ejecución del código. He utilizado dos de estas para que las secciones aparezcan una después de la otra.
+El primer setTimeout espera 500 milisegundos (medio segundo) antes de encontrar el elemento con el ID quienes-somos-text y le agrega la clase CSS fade-in-active. Esta clase, que está definida en el <style>, cambia la opacidad y la posición del texto, creando el efecto de entrada.
+El segundo setTimeout espera 1000 milisegundos (un segundo completo), lo que hace que la sección del equipo aparezca justo después del texto.
+
+Carrusel de Imágenes
+
+// Código para el carrusel de imágenes
+const images = document.querySelectorAll('.carousel-image');
+let currentIndex = 0;
+
+function showImage(index) {
+    images.forEach((img, i) => {
+        if (i === index) {
+            img.classList.add('active');
+        } else {
+            img.classList.remove('active');
+        }
+    });
+}
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+}
+
+// Iniciar el carrusel
+setInterval(nextImage, 5000); // Cambia de imagen cada 5 segundos
+
+
+Esta parte del código es responsable de que las imágenes en la parte superior de la página cambien automáticamente.
+const images = document.querySelectorAll('.carousel-image'): 
+Esta línea busca todos los elementos con la clase CSS carousel-image y los guarda en una variable llamada images. De esta manera, JavaScript sabe cuántas imágenes hay en el carrusel.
+let currentIndex = 0: Esta variable lleva la cuenta de qué imagen se está mostrando en ese momento. Empieza en 0, que es el índice de la primera imagen.
+showImage(index): Esta función es la que realmente muestra una imagen. Recorre todas las imágenes y si el índice de una imagen (i) coincide con el índice que se le pasó (index), le añade la clase active. Si no, se asegura de que la clase sea eliminada. La clase active hace que la imagen sea visible.
+nextImage(): Esta función calcula el índice de la siguiente imagen. El símbolo % (módulo) asegura que, cuando se llegue a la última imagen, el índice vuelva a 0 y el carrusel comience de nuevo. Luego llama a la función showImage() para mostrar la nueva imagen.
+setInterval(): Esta función llama a la función nextImage() repetidamente, cada 5000 milisegundos (5 segundos). Esto es lo que hace que el carrusel sea automático.
+
+
+-->

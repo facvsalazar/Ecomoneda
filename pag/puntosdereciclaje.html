@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntos de Reciclaje - Círculo Sostenible</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        xintegrity="sha512-xodxRmwJ5Q8pD84S1S2vj06S8B3r4P2n5S3r0L6P7rC6Q5S4L9E3x8F7E4f8G4D8y4"
+        crossorigin=""/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-y: auto;
+            color: white;
+            background-color: #0d1117;
+        }
+
+        .header-bar {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cuadrado {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .fade-slide-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- Barra de Navegación Superior -->
+    <header class="header-bar p-4 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center space-x-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY8E6ka94bP9E42YdL46PJiJjsXPqzgeMrh4rP3hJS9maZ2Cw3Xj6MG6ic1j2VTT2hUw4&usqp=CAU" alt="Logo de Camino Verde" class="w-12 h-12 rounded-full">
+            <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-lime-600">
+                Camino Verde
+            </span>
+        </div>
+        <a href="../index.html" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300">
+            Volver al Inicio
+        </a>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto p-8 max-w-6xl text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-lime-600 mt-8">
+            Puntos de Reciclaje
+        </h1>
+        <p class="text-lg text-gray-300 mb-12">
+            Encuentra el punto de reciclaje más cercano y contribuye a un futuro más sostenible. Nuestro mapa interactivo te ayuda a ubicar los centros de acopio y sus horarios.
+        </p>
+
+        <!-- Sección de Búsqueda y Mapa -->
+        <div class="cuadrado rounded-xl p-6 md:p-8 my-8 text-left fade-slide-in-up" id="mapa-section">
+            <h2 class="text-2xl font-bold mb-4">Encuentra un Punto de Reciclaje</h2>
+            <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                <input type="text" id="searchInput" placeholder="Ingresa tu ubicación o un material..." class="w-full sm:w-2/3 p-3 rounded-lg bg-gray-800 text-white border-2 border-emerald-500 focus:outline-none focus:border-emerald-400">
+                <button id="searchButton" class="w-full sm:w-1/3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+                    Buscar
+                </button>
+            </div>
+            
+            <!-- Contenedor del mapa -->
+            <div id="map" class="w-full h-96"></div>
+        </div>
+
+        <!-- Lista de Puntos de Reciclaje (Ejemplo) -->
+        <div class="cuadrado rounded-xl p-6 md:p-8 my-8 text-left fade-slide-in-up" id="lista-section">
+            <h2 class="text-2xl font-bold mb-4">Puntos de Reciclaje en Buenos Aires</h2>
+            <ul id="puntosList" class="space-y-6">
+                <!-- Los puntos de la lista se generarán dinámicamente -->
+            </ul>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+        <footer class="w-full bg-gray-900 text-gray-300 py-10 px-4 mt-12 rounded-t-3xl shadow-xl">
+            <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+                <!-- Columna de Logo y Descripción -->
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center mb-2">
+                        <i class="ph-duotone ph-leaf text-green-500 text-4xl mr-2"></i>
+                        <h3 class="text-2xl font-bold text-green-400">Reciclaje</h3>
+                    </div>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        En la provincia de Buenos Aires existen muchos centros de reciclaje, lleva tu basura para que sea tratada.
+                    </p>
+                    <p class="text-sm text-center md:text-left max-w-sm">
+                        Tu participacion ayuda a salvar el mundo.
+                    </p>
+                </div>
+
+                <!-- Columna de Enlaces de Navegación -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Explorar</h4>
+                    <ul class="text-center md:text-left space-y-2">
+                        <li><a href="../index.html" class="footer-link">Inicio</a></li>
+                        <li><a href="../pag/ecomonedas.html" class="footer-link">Ecomonedas</a></li>
+                        <li><a href="../pag/¿Quienes_Somos.html" class="footer-link">¿Quienes Somos?</a></li>
+                        <li><a href="../pag/juego.html" class="footer-link">Juega y Gana</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna de Contacto y Redes Sociales -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h4 class="text-lg font-semibold text-green-400 mb-2">Síguenos</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" target="_blank" class="share-button share-facebook text-xl" title="Facebook">
+                            <i class="ph-fill ph-facebook-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-twitter text-xl" title="X (Twitter)">
+                            <i class="ph-fill ph-x-logo"></i>
+                        </a>
+                        <a href="#" target="_blank" class="share-button share-whatsapp text-xl" title="WhatsApp">
+                            <i class="ph-fill ph-whatsapp-logo"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm">Contacto: info@camino_verde.com.ar</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
+                © 2025 Centro de Reciclaje. Todos los derechos reservados. Camino Verde
+            </div>
+        </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        xintegrity="sha512-XQoYMqWkI5+P5oX55J4e4s5c4o2n8p0w3u8v5c2y0e9z9o4J9v3c4L8K9P8H4G5G4I4d4L8p3Q8C5V0V8u0Q4u5w4P5n4l5a"
+        crossorigin=""></script>
+    <script>
+        window.onload = function() {
+            // Animación de entrada de las secciones
+            setTimeout(() => {
+                document.getElementById('mapa-section').classList.add('fade-in-active');
+            }, 500);
+            setTimeout(() => {
+                document.getElementById('lista-section').classList.add('fade-in-active');
+            }, 1000);
+
+            // Código para inicializar y mostrar el mapa
+            let map = L.map('map').setView([-36.676, -59.782], 7); // Coordenadas y zoom centrados en Provincia de Buenos Aires
+            let markers = L.layerGroup().addTo(map); // Grupo de marcadores
+
+            // Agregar el proveedor de mapas (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Definir los puntos de reciclaje
+            const puntos = [
+                {
+                    coords: [-34.6548, -58.6225],
+                    nombre: "Punto Verde Morón",
+                    municipio: "Morón",
+                    info: "<b>Punto Verde Morón</b><br>Plaza San Martín, Morón.<br>Materiales: Botellas PET, Cartón, Plástico, Tapitas."
+                },
+                {
+                    coords: [-34.6439, -58.5630],
+                    nombre: "Eco-Punto Ramos Mejía",
+                    municipio: "La Matanza",
+                    info: "<b>Eco-Punto Ramos Mejía</b><br>Av. de Mayo y Rivadavia, Ramos Mejía.<br>Materiales: Papel, Vidrio, Plástico, Aluminio y Envases de tetrabrick."
+                },
+                {
+                    coords: [-34.6469, -58.5830],
+                    nombre: "Centro de Reciclaje Haedo",
+                    municipio: "Morón",
+                    info: "<b>Centro de Reciclaje Haedo</b><br>Gral. Güemes 123, Haedo.<br>Materiales: Pílas, Aceite de cocina usado, Electrónicos pequeños y Botellas PET."
+                },
+                {
+                    coords: [-34.6640, -58.6650],
+                    nombre: "Punto Limpio Ituzaingó",
+                    municipio: "Ituzaingó",
+                    info: "<b>Punto Limpio Ituzaingó</b><br>Av. Néstor Kirchner y El Lazo, Ituzaingó.<br>Materiales: Plástico, Vidrio, Latas, Ropa en buen estado."
+                },
+                {
+                    coords: [-34.6540, -58.6010],
+                    nombre: "Centro de Reutilización Castelar",
+                    municipio: "Morón",
+                    info: "<b>Centro de Reutilización Castelar</b><br>Avenida Arias 2100, Castelar.<br>Materiales: Residuos electrónicos, Muebles pequeños, Papel."
+                },
+                {
+                    coords: [-34.6670, -58.7200],
+                    nombre: "Eco-Punto Merlo",
+                    municipio: "Merlo",
+                    info: "<b>Eco-Punto Merlo</b><br>Av. del Libertador 440, Merlo.<br>Materiales: Plástico, Cartón, Vidrio, Aluminio, Tetra Brik."
+                },
+                {
+                    coords: [-34.6510, -58.7940],
+                    nombre: "Punto Móvil de Reciclaje Moreno",
+                    municipio: "Moreno",
+                    info: "<b>Punto Móvil de Reciclaje Moreno</b><br>Plaza de la Municipalidad, Moreno.<br>Materiales: Papel, Plástico, Vidrio, Botellas PET."
+                },
+                {
+                    coords: [-34.6520, -58.7350],
+                    nombre: "Punto Limpio Paso del Rey",
+                    municipio: "Moreno",
+                    info: "<b>Punto Limpio Paso del Rey</b><br>Ruta 24 y El Ombú, Paso del Rey.<br>Materiales: Aceite vegetal usado, Pilas, Electrónicos pequeños."
+                },
+                {
+                    coords: [-34.6730, -58.5580],
+                    nombre: "Centro de Acopio La Matanza",
+                    municipio: "La Matanza",
+                    info: "<b>Centro de Acopio La Matanza</b><br>Av. Gral. Paz y Eva Perón, San Justo.<br>Materiales: Plástico, Vidrio, Cartón, Papel, Tapitas."
+                },
+                {
+                    coords: [-34.9213, -57.9545],
+                    nombre: "Punto Verde La Plata",
+                    municipio: "La Plata",
+                    info: "<b>Punto Verde La Plata</b><br>Plaza San Martín, La Plata.<br>Materiales: Botellas PET, Cartón, Papel, Vidrio, Plástico."
+                },
+                {
+                    coords: [-38.0041, -57.5458],
+                    nombre: "Eco-Punto Mar del Plata",
+                    municipio: "General Pueyrredón",
+                    info: "<b>Eco-Punto Mar del Plata</b><br>Av. Luro y la Costa, Mar del Plata.<br>Materiales: Botellas PET, Cartón, Plástico, Latas de aluminio."
+                },
+                {
+                    coords: [-38.7183, -62.2662],
+                    nombre: "Centro de Reciclaje Bahía Blanca",
+                    municipio: "Bahía Blanca",
+                    info: "<b>Centro de Reciclaje Bahía Blanca</b><br>Rivadavia 123, Bahía Blanca.<br>Materiales: Papel, Cartón, Plástico, Vidrio."
+                },
+                {
+                    coords: [-37.3217, -59.1332],
+                    nombre: "Punto Sostenible Tandil",
+                    municipio: "Tandil",
+                    info: "<b>Punto Sostenible Tandil</b><br>Av. Rivadavia 500, Tandil.<br>Materiales: Plástico, Vidrio, Tapitas, Pilas."
+                }
+            ];
+
+            // Función para actualizar el mapa y la lista
+            function updateDisplay(filteredPuntos) {
+                // Limpiar marcadores y lista existentes
+                markers.clearLayers();
+                const puntosList = document.getElementById('puntosList');
+                puntosList.innerHTML = '';
+
+                // Si no hay puntos, mostrar un mensaje
+                if (filteredPuntos.length === 0) {
+                    const li = document.createElement('li');
+                    li.classList.add('p-4', 'bg-gray-800', 'rounded-lg', 'border', 'border-gray-700');
+                    li.innerHTML = `<p class="text-gray-400">No se encontraron puntos de reciclaje para tu búsqueda.</p>`;
+                    puntosList.appendChild(li);
+                } else {
+                    // Añadir marcadores al mapa
+                    let bounds = [];
+                    filteredPuntos.forEach(punto => {
+                        L.marker(punto.coords).addTo(markers)
+                            .bindPopup(punto.info)
+                            .openPopup();
+                        bounds.push(punto.coords);
+
+                        // Crear elemento de lista
+                        const li = document.createElement('li');
+                        li.classList.add('p-4', 'bg-gray-800', 'rounded-lg', 'border', 'border-gray-700');
+                        li.innerHTML = `
+                            <h3 class="text-xl font-semibold text-emerald-400">${punto.nombre}</h3>
+                            <p class="text-gray-400">${punto.info.split('<br>').slice(1).join('<br>')}</p>
+                            <p class="text-sm text-gray-500 mt-1">Municipio: ${punto.municipio}</p>
+                        `;
+                        puntosList.appendChild(li);
+                    });
+
+                    // Ajustar el mapa para que muestre todos los marcadores
+                    if (bounds.length > 0) {
+                        map.fitBounds(bounds, { padding: [50, 50] });
+                    }
+                }
+            }
+
+            // Manejar el evento de búsqueda
+            document.getElementById('searchButton').addEventListener('click', () => {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                const filteredPuntos = puntos.filter(punto => {
+                    return punto.municipio.toLowerCase().includes(query) ||
+                           punto.nombre.toLowerCase().includes(query) ||
+                           punto.info.toLowerCase().includes(query);
+                });
+                updateDisplay(filteredPuntos);
+            });
+
+            // Mostrar todos los puntos al cargar la página
+            updateDisplay(puntos);
+        };
+    </script>
+</body>
+</html>
+
+<!--
+
+Explicación del Código CSS
+
+En la sección <style>, utilice Tailwind CSS para la mayoría del diseño pero también use algunas clases personalizadas para efectos especiales.
+
+Efecto de "Glassmorphism" (): Las clases .header-bar y .cuadrado son las más importantes. background-color: rgba(255, 255, 255, 0.15) crea un fondo blanco semitransparente. El truco principal es backdrop-filter: blur(10px), que difumina el contenido que hay detrás del elemento, creando el efecto de "vidrio esmerilado" que se ve en la cabecera y en los cuadros de contenido.
+
+Animación de entrada: Las clases .fade-slide-in-up y .fade-in-active se combinan para crear una animación de entrada suave. La primera clase inicializa los elementos con opacity: 0 (invisibles) y transform: translateY(20px) (ligeramente desplazados hacia abajo). Luego, el JavaScript añade la segunda clase, que cambia la opacidad a 1 y la posición a 0, haciendo que los elementos se deslicen y aparezcan gradualmente en la pantalla. Esto le da una sensación de profesionalidad a la página.
+
+Mapa: El style del #map define su altura, los bordes redondeados y una sombra interior para integrarlo mejor en el diseño.
+
+Explicación del Código JavaScript
+El código JavaScript se encarga de que todo cobre vida. Funciona de la siguiente manera:
+
+window.onload: Esta función se ejecuta automáticamente cuando toda la página y sus elementos (incluido el mapa) están completamente cargados. Es la mejor práctica para evitar errores.
+
+Base de datos de Puntos de Reciclaje: La constante puntos es el corazón del programa. Es un array de objetos, donde cada objeto representa un punto de reciclaje y tiene propiedades como coords (coordenadas para el mapa), nombre, municipio e info. Puedes ver esto como una pequeña base de datos que se carga al inicio.
+
+Inicialización del Mapa: Las líneas con L. (de la librería Leaflet) inicializan el mapa. L.map('map').setView(...) crea el mapa y lo centra en las coordenadas y el nivel de zoom de la provincia de Buenos Aires. L.tileLayer carga el estilo visual del mapa de OpenStreetMap.
+
+Función updateDisplay(): Esta es la función clave del buscador. Cuando se llama, hace lo siguiente:
+
+Limpia todo: Borra todos los marcadores existentes en el mapa y todos los elementos de la lista HTML.
+
+Añade nuevos puntos: Recorre el array filteredPuntos (que puede ser la lista completa o una lista filtrada por la búsqueda). Por cada punto, añade un marcador en el mapa con un popup con su información, y también crea un nuevo elemento <li> en la lista de abajo para que el usuario pueda ver la información detallada.
+
+Ajusta el mapa: Si hay puntos, map.fitBounds(bounds) ajusta automáticamente el zoom del mapa para que todos los marcadores sean visibles.
+
+Lógica de Búsqueda: El código document.getElementById('searchButton').addEventListener('click', ...) espera a que el usuario haga clic en el botón de "Buscar". Cuando lo hace:
+
+Toma el texto del campo de búsqueda y lo convierte a minúsculas con .toLowerCase() para que la búsqueda no distinga entre mayúsculas y minúsculas.
+
+Usa el método .filter() para crear un nuevo array llamado filteredPuntos. Este array solo contiene los puntos del array original puntos que coincidan con la búsqueda. La búsqueda se realiza en el municipio, el nombre y la información del punto.
+
+Finalmente, llama a la función updateDisplay() con el array filteredPuntos, que se encarga de mostrar solo los resultados relevantes.
+
+-->

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Sencillo de Atrapar Frutas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Módulos Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        setLogLevel('debug');
+
+        // Variables globales del entorno Canvas. NO cambiar.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db, auth;
+        let isAuthReady = false;
+        let userId;
+
+        // Inicializar Firebase y autenticar
+        if (Object.keys(firebaseConfig).length > 0) {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                } else {
+                    userId = crypto.randomUUID();
+                }
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                isAuthReady = true;
+            });
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fce5d4, #ffcccb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .game-container {
+            background-color: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        canvas {
+            background-color: #ffe4e1;
+            border: 2px solid #ff6347;
+            border-radius: 1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2rem 4rem;
+            border-radius: 1rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .restart-button {
+            transition: transform 0.2s ease-in-out;
+        }
+        .restart-button:hover {
+            transform: scale(1.05);
+        }
+
+        .leaderboard {
+            margin-top: 2rem;
+            width: 100%;
+            background-color: #fffaf0;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #fbd38d;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="game-container">
+        <!-- Barra de Navegación Superior -->
+        <nav class="w-full flex items-center justify-between p-4 z-50 rounded-t-2xl">
+            <a href="ecomonedas.html" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-200 shadow-md">
+                Regresar
+            </a>
+            <h1 class="text-3xl font-bold text-gray-800">Atrapa la Fruta</h1>
+            <div class="w-24"></div> <!-- Espaciador para centrar el título -->
+        </nav>
+
+        <div class="game-info w-full text-lg font-bold">
+            <div id="score" class="text-green-600">Puntaje: 0</div>
+            <div id="level" class="text-blue-600">Nivel: 1</div>
+            <div id="lives" class="text-red-600">Vidas: 3</div>
+        </div>
+
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+        
+        <div id="gameMessage" class="hidden game-message">
+            <h2 id="messageTitle" class="text-4xl font-bold">¡Fin del Juego! 😭</h2>
+            <p id="messageText" class="text-xl mt-4">Tu puntaje final es: <span id="finalScore" class="font-bold text-green-400">0</span></p>
+            <button id="restartButton" class="mt-8 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors duration-200 restart-button">
+                Jugar de Nuevo
+            </button>
+        </div>
+
+        <div id="levelUpMessage" class="hidden game-message">
+            <h2 class="text-4xl font-bold">¡Felicidades! 🎉</h2>
+            <p class="text-xl mt-4">Has alcanzado el Nivel <span id="levelUpNumber">1</span></p>
+            <p class="text-sm mt-2 text-gray-300">¡Sigue así para ganar más!</p>
+            <button id="downloadPdfButton" class="mt-6 inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors duration-200">
+                Descarga tu recompensa (5 Ecomonedas)
+            </button>
+            <button id="continueButton" class="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors duration-200 restart-button">
+                Continuar
+            </button>
+        </div>
+
+        <div class="leaderboard">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Marcador de Puntos</h3>
+            <div id="highScoresList" class="text-gray-600"></div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('score');
+            const levelDisplay = document.getElementById('level');
+            const livesDisplay = document.getElementById('lives');
+            const messageBox = document.getElementById('gameMessage');
+            const levelUpMessageBox = document.getElementById('levelUpMessage');
+            const finalScoreDisplay = document.getElementById('finalScore');
+            const messageTitle = document.getElementById('messageTitle');
+            const messageText = document.getElementById('messageText');
+            const restartButton = document.getElementById('restartButton');
+            const levelUpNumber = document.getElementById('levelUpNumber');
+            const downloadPdfButton = document.getElementById('downloadPdfButton');
+            const continueButton = document.getElementById('continueButton');
+            const highScoresList = document.getElementById('highScoresList');
+
+            // --- Definiciones del Juego ---
+            const PLAYER_SIZE = 50;
+            const FRUIT_SIZE = 30;
+            const BASE_GAME_SPEED = 2;
+            const SPEED_INCREASE_PER_LEVEL = 0.9;
+            const LEVEL_THRESHOLD = 3;
+
+            let gameSpeed = BASE_GAME_SPEED;
+            let score = 0;
+            let level = 1;
+            let lives = 3;
+            let gameOver = false;
+            let currentFruit = null;
+
+            const player = {
+                x: canvas.width / 2,
+                y: canvas.height - 50,
+                emoji: '🧺'
+            };
+
+            const fruitTypes = [
+                '🍓', '🍎', '🍊', '🍌', '🍇', '🍉', '🥝'
+            ];
+            
+            const highScores = [
+                { user: 'EcoMaster', score: 180 },
+                { user: 'SostenibleMax', score: 155 },
+                { user: 'VerdeVortex', score: 120 },
+                { user: 'GaiaWarrior', score: 95 },
+                { user: 'PlantaPoder', score: 70 }
+            ];
+
+            const ecomonedasByLevel = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+
+            // --- Funciones de Dibujo ---
+            function drawPlayer() {
+                ctx.font = `${PLAYER_SIZE}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(player.emoji, player.x, player.y);
+            }
+
+            function drawFruit(fruit) {
+                if (fruit) {
+                    ctx.font = `${FRUIT_SIZE}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(fruit.emoji, fruit.x, fruit.y);
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawPlayer();
+                drawFruit(currentFruit);
+            }
+
+            // --- Lógica del Juego ---
+            function spawnFruit() {
+                const randomFruit = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
+                currentFruit = {
+                    x: Math.random() * (canvas.width - FRUIT_SIZE) + FRUIT_SIZE / 2,
+                    y: -50,
+                    emoji: randomFruit
+                };
+            }
+
+            function update() {
+                if (gameOver) return;
+
+                if (!currentFruit) {
+                    spawnFruit();
+                }
+                
+                // Mover la fruta hacia abajo
+                currentFruit.y += gameSpeed;
+
+                // Chequear colisión con el jugador (la cesta)
+                if (currentFruit.y >= player.y - PLAYER_SIZE / 2 && Math.abs(currentFruit.x - player.x) < PLAYER_SIZE / 2) {
+                    score++;
+                    scoreDisplay.textContent = 'Puntaje: ' + score;
+
+                    // Chequear si el usuario subió de nivel
+                    if (score % LEVEL_THRESHOLD === 0 && level < 10) {
+                        levelUp();
+                    } else if (score % LEVEL_THRESHOLD === 0 && level === 10) {
+                        winGame();
+                    } else {
+                        spawnFruit();
+                    }
+                }
+
+                // Chequear si la fruta ha caído al suelo
+                if (currentFruit.y > canvas.height) {
+                    lives--;
+                    livesDisplay.textContent = 'Vidas: ' + lives;
+                    if (lives <= 0) {
+                        endGame();
+                    } else {
+                        spawnFruit();
+                    }
+                }
+            }
+
+            function levelUp() {
+                level++;
+                levelDisplay.textContent = 'Nivel: ' + level;
+                score = 0;
+                scoreDisplay.textContent = 'Puntaje: ' + score;
+                gameSpeed += SPEED_INCREASE_PER_LEVEL;
+
+                const ecomonedas = ecomonedasByLevel[level - 2];
+                levelUpNumber.textContent = level - 1;
+                downloadPdfButton.textContent = `Descarga tu recompensa (${ecomonedas} Ecomonedas)`;
+                downloadPdfButton.setAttribute('data-ecomonedas', ecomonedas);
+                
+                messageBox.classList.add('hidden');
+                levelUpMessageBox.classList.remove('hidden');
+
+                // Pausar el juego para mostrar el mensaje
+                gameOver = true;
+            }
+
+            function winGame() {
+                gameOver = true;
+                messageTitle.textContent = '¡Has ganado! 🎉';
+                messageText.textContent = `¡Felicidades, has completado todos los niveles!`;
+                messageBox.classList.remove('hidden');
+                levelUpMessageBox.classList.add('hidden');
+            }
+
+            function endGame() {
+                gameOver = true;
+                messageTitle.textContent = '¡Fin del Juego! 😭';
+                messageText.textContent = `Tu puntaje final es: ${score}.`;
+                messageBox.classList.remove('hidden');
+                levelUpMessageBox.classList.add('hidden');
+            }
+
+            function restartGame() {
+                score = 0;
+                level = 1;
+                lives = 3;
+                gameOver = false;
+                gameSpeed = BASE_GAME_SPEED;
+                scoreDisplay.textContent = 'Puntaje: ' + score;
+                levelDisplay.textContent = 'Nivel: ' + level;
+                livesDisplay.textContent = 'Vidas: ' + lives;
+                messageBox.classList.add('hidden');
+                levelUpMessageBox.classList.add('hidden');
+                currentFruit = null;
+                gameLoop();
+            }
+
+            function generateAndDownloadPDF(ecomonedas) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                const now = new Date();
+                const dateString = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                const timeString = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+                // Título
+                doc.setFontSize(30);
+                doc.setTextColor('#333333');
+                doc.text("Certificado de Recompensa", 25, 30);
+
+                // Línea divisoria
+                doc.setDrawColor('#4CAF50');
+                doc.line(20, 40, 190, 40);
+
+                // Detalles
+                doc.setFontSize(18);
+                doc.setTextColor('#555555');
+                doc.text("¡Felicidades por tu compromiso con el medio ambiente!", 25, 60);
+
+                doc.setFontSize(22);
+                doc.setTextColor('#4CAF50');
+                doc.text("Ecomonedas Ganadas:", 25, 80);
+                doc.setFontSize(32);
+                doc.setTextColor('#009688');
+                doc.text(`${ecomonedas}`, 100, 100, { align: 'center' });
+
+                // Detalles de la descarga
+                doc.setFontSize(14);
+                doc.setTextColor('#777777');
+                doc.text("Este certificado ha sido emitido al completar con éxito un nivel en el juego de reciclaje.", 25, 120);
+                doc.text(`Fecha de Descarga: ${dateString}`, 25, 135);
+                doc.text(`Hora de Descarga: ${timeString}`, 25, 145);
+
+                // Sello o logo ficticio
+                doc.setFontSize(100);
+                doc.setTextColor('#9C27B0');
+                doc.text('🌱', 160, 180);
+
+                // Cita motivacional
+                doc.setFontSize(16);
+                doc.setTextColor('#333333');
+                doc.text('"Pequeñas acciones hacen grandes cambios."', 105, 220, null, null, 'center');
+                doc.text("- Ecomonedas", 105, 230, null, null, 'center');
+
+                doc.save(`Recompensa_Nivel_${level - 1}.pdf`);
+            }
+            
+            function renderLeaderboard() {
+                highScores.sort((a, b) => b.score - a.score);
+                highScoresList.innerHTML = '';
+                highScores.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'leaderboard-item';
+                    div.innerHTML = `<span>${index + 1}. ${item.user}</span><span>${item.score}</span>`;
+                    highScoresList.appendChild(div);
+                });
+            }
+
+            restartButton.addEventListener('click', restartGame);
+            continueButton.addEventListener('click', restartGame);
+            downloadPdfButton.addEventListener('click', () => {
+                const ecomonedas = downloadPdfButton.getAttribute('data-ecomonedas');
+                generateAndDownloadPDF(ecomonedas);
+            });
+
+            // Control de movimiento con el mouse y toque
+            function handleMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || e.touches[0].clientX;
+                player.x = clientX - rect.left;
+                if (player.x < PLAYER_SIZE / 2) {
+                    player.x = PLAYER_SIZE / 2;
+                }
+                if (player.x > canvas.width - PLAYER_SIZE / 2) {
+                    player.x = canvas.width - PLAYER_SIZE / 2;
+                }
+            }
+            canvas.addEventListener('mousemove', handleMove);
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                handleMove(e);
+            });
+
+            // Bucle principal del juego
+            function gameLoop() {
+                if (!gameOver) {
+                    update();
+                    draw();
+                    requestAnimationFrame(gameLoop);
+                }
+            }
+            
+            // Iniciar el juego
+            renderLeaderboard();
+            gameLoop();
+        };
+    </script>
+</body>
+</html>
